@@ -1,4 +1,5 @@
-config
+config.ini
+# gitignore 所寫的內容不會在上傳 git 時被上傳
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
