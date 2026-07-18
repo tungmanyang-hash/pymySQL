@@ -71,9 +71,11 @@ def get_sub_category_chart_data(category):
     return ""
 
 def get_products_and_order_details():
-    # 取得 products 和 order_details 的資料
+    # 取得 products 和 order_details 的資料(用 join)
     products_order_details_query = """
-
+    SELECT category, sub_category, product_name, SUM(sales) as sales, SUM(profit) as profit FROM product as p
+    JOIN OrderDetails as o ON p.product_id = o.product_id
+    GROUP BY category, sub_category, product_name
     """
 
     """
@@ -88,7 +90,8 @@ def get_products_and_order_details():
     ];
     """
 
-    products_and_order_details_result = []
+    products_and_order_details_result = sql_query(products_order_details_query)
+    products_and_order_details_result = [{**i, 'profit':round(i['profit']/i['sales']*100, 2)} for i in products_and_order_details_result]
     sub_category = []
 
     # 回傳 products_and_order_details_result 以及 所有的子類別名稱
